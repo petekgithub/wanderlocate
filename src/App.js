@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
 import { CssBaseline, Grid } from "@material-ui/core";
 
-// components
 import Header from "./component/Header/header.component";
 import List from "./component/List/list.component";
 import Map from "./component/Map/map.component";
 
 import { getPlacesData, getWeatherData } from "./api";
 
-const App = () => {
+function App() {
   const [places, setPlaces] = useState([]);
-  const [filteredPlaces, setFilteredPlaces] = useState([]);
   const [weatherData, setWeatherData] = useState([]);
+  const [filteredPlaces, setFilteredPlaces] = useState([]);
 
   const [coordinates, setCoordinates] = useState({});
-  const [bounds, setBounds] = useState({});
+  const [bounds, setBounds] = useState();
   const [childClicked, setChildClicked] = useState();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -43,7 +43,6 @@ const App = () => {
       );
       getPlacesData(type, bounds.sw, bounds.ne).then((data) => {
         setPlaces(data?.filter((place) => place.name && place.num_reviews > 0));
-        //setFilteredPlaces([]);
         setIsLoading(false);
       });
     }
@@ -51,6 +50,7 @@ const App = () => {
 
   useEffect(() => {
     const filteredPlaces = places?.filter((place) => place.rating > rating);
+
     setFilteredPlaces(filteredPlaces);
   }, [rating]);
 
@@ -83,6 +83,6 @@ const App = () => {
       </Grid>
     </>
   );
-};
+}
 
 export default App;
