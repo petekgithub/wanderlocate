@@ -7,12 +7,9 @@ export default makeStyles(() => ({
     flexDirection: "column",
     justifyContent: "center",
     width: "100px",
-    boxSizing: "border-box",
-    borderRadius: "8px",
-    backgroundColor: "rgba(255, 0, 0, 0.5)", // Add a background color for testing
   },
   mapContainer: {
-    height: "70%",
+    height: "85vh",
     width: "100%",
   },
   markerContainer: {
@@ -23,5 +20,7 @@ export default makeStyles(() => ({
   },
   pointer: {
     cursor: "pointer",
+    maxHeight: "5rem",
+    marginBottom: "0.3rem",
   },
 }));

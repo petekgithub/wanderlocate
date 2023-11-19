@@ -7,6 +7,7 @@ export const getPlacesData = async (type, sw, ne) => {
     } = await axios.get(
       `https://travel-advisor.p.rapidapi.com/${type}/list-in-boundary`,
       {
+        url: URL,
         params: {
           bl_latitude: sw.lat,
           bl_longitude: sw.lng,
@@ -26,16 +27,39 @@ export const getPlacesData = async (type, sw, ne) => {
   }
 };
 
+// export const getWeatherData = async (lat, lng) => {
+//   try {
+//     if (lat && lng) {
+//       const { data } = await axios.get(
+//         "https://weatherbit-v1-mashape.p.rapidapi.com/forecast/3hourly",
+//         {
+//           params: { lat: lat, lon: lng },
+//           headers: {
+//             "X-RapidAPI-Key": process.env.REACT_APP_RAPIDAPIWEATHERMAP_API_KEY,
+//             "X-RapidAPI-Host": "weatherbit-v1-mashape.p.rapidapi.com",
+//           },
+//         }
+//       );
+
+//       return data;
+//     }
+//   } catch (error) {
+//     console.error("Error fetching weather data:", error);
+//   }
+// };
 export const getWeatherData = async (lat, lng) => {
   try {
     if (lat && lng) {
       const { data } = await axios.get(
-        "https://weatherbit-v1-mashape.p.rapidapi.com/forecast/3hourly",
+        "https://community-open-weather-map.p.rapidapi.com/find",
         {
-          params: { lat: lat, lon: lng },
+          params: {
+            lat: lat,
+            lon: lng,
+          },
           headers: {
-            "X-RapidAPI-Key": process.env.REACT_APP_RAPIDAPIWEATHERMAP_API_KEY,
-            "X-RapidAPI-Host": "weatherbit-v1-mashape.p.rapidapi.com",
+            "x-rapidapi-host": "community-open-weather-map.p.rapidapi.com",
+            "x-rapidapi-key": process.env.REACT_APP_RAPIDAPI_WEATHERMAP_API_KEY,
           },
         }
       );
@@ -43,6 +67,6 @@ export const getWeatherData = async (lat, lng) => {
       return data;
     }
   } catch (error) {
-    console.error("Error fetching weather data:", error);
+    console.error(error);
   }
 };

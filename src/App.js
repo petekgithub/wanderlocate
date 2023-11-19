@@ -1,56 +1,58 @@
 import React, { useState, useEffect } from "react";
-// materialui
 import { CssBaseline, Grid } from "@material-ui/core";
+
+// components
+import Header from "./component/Header/header.component";
+import List from "./component/List/list.component";
+import Map from "./component/Map/map.component";
 
 import { getPlacesData, getWeatherData } from "./api";
 
-// components
-import Header from "./component/Header/Header";
-import List from "./component/List/List";
-import Map from "./component/Map/Map";
-
 const App = () => {
   const [places, setPlaces] = useState([]);
+  const [filteredPlaces, setFilteredPlaces] = useState([]);
+  const [weatherData, setWeatherData] = useState([]);
+
   const [coordinates, setCoordinates] = useState({});
-  const [bounds, setBounds] = useState({}); // bounds: boundaries (comes from maps) / bounds state will update in every request.
-  const [childClicked, setChildClicked] = useState(null);
+  const [bounds, setBounds] = useState({});
+  const [childClicked, setChildClicked] = useState();
 
   const [isLoading, setIsLoading] = useState(false);
 
   const [type, setType] = useState("restaurants");
   const [rating, setRating] = useState("");
 
-  const [filteredPlaces, setFilteredPlaces] = useState([]);
-  const [weatherData, setWeatherData] = useState([]);
-
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
         setCoordinates({ lat: latitude, lng: longitude });
+      },
+      (error) => {
+        alert(
+          "Please turn on your location access and refresh the page to continue."
+        );
       }
     );
   }, []);
 
   useEffect(() => {
-    const filteredPlaces = places.filter((place) => place.rating > rating);
-    setFilteredPlaces(filteredPlaces);
-  }, [rating]);
-
-  useEffect(() => {
     if (bounds?.sw && bounds?.ne) {
       setIsLoading(true);
-
       getWeatherData(coordinates.lat, coordinates.lng).then((data) =>
         setWeatherData(data)
       );
-
       getPlacesData(type, bounds.sw, bounds.ne).then((data) => {
         setPlaces(data?.filter((place) => place.name && place.num_reviews > 0));
-        setFilteredPlaces([]);
+        //setFilteredPlaces([]);
         setIsLoading(false);
       });
     }
   }, [type, bounds]);
+
+  useEffect(() => {
+    const filteredPlaces = places?.filter((place) => place.rating > rating);
+    setFilteredPlaces(filteredPlaces);
+  }, [rating]);
 
   return (
     <>
@@ -70,9 +72,9 @@ const App = () => {
         </Grid>
         <Grid item xs={12} md={8}>
           <Map
+            coordinates={coordinates}
             setCoordinates={setCoordinates}
             setBounds={setBounds}
-            coordinates={coordinates}
             places={filteredPlaces.length ? filteredPlaces : places}
             setChildClicked={setChildClicked}
             weatherData={weatherData}

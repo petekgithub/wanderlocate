@@ -6,21 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
-      name="Explore - Advisor App"
-      content="Web site created using create-react-app"
+      name="description"
+      content="Google Maps that helps you find places around you using React with Material UI"
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>WanderLocate</title>
-    <script>
-      if (!window.google) {
-        const script = document.createElement("script");
-        script.src =
-          "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyCu3LUknxm2gM0QaQtvSUJ0npghm0M8_ng";
-        script.async = true;
-        document.head.appendChild(script);
-      }
-    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=REACT_APP_GOOGLE_MAPS_API_KEY"></script>
   </head>
   <body>
     <div id="root"></div>
