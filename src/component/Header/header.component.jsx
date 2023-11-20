@@ -8,16 +8,23 @@ import useStyles from "./header.styles";
 
 const Header = ({ setCoordinates }) => {
   const classes = useStyles();
-
-  const [autocomplete, setAutocomplete] = useState();
+  const [autocomplete, setAutocomplete] = useState(null);
 
   const onLoad = (autoC) => setAutocomplete(autoC);
 
   const onPlaceChanged = () => {
-    const lat = autocomplete.getPlace().geometry?.location.lat();
-    const lng = autocomplete.getPlace().geometry?.location.lng();
-
-    setCoordinates({ lat, lng });
+    if (autocomplete) {
+      const place = autocomplete.getPlace();
+      if (place.geometry && place.geometry.location) {
+        const lat = place.geometry.location.lat();
+        const lng = place.geometry.location.lng();
+        setCoordinates({ lat, lng });
+      } else {
+        console.error("Place geometry or location is undefined");
+      }
+    } else {
+      console.error("Autocomplete is null");
+    }
   };
 
   return (

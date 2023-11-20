@@ -7,7 +7,7 @@ export const getPlacesData = async (type, sw, ne) => {
     } = await axios.get(
       `https://travel-advisor.p.rapidapi.com/${type}/list-in-boundary`,
       {
-        url: URL,
+        //url: URL,
         params: {
           bl_latitude: sw.lat,
           tr_latitude: ne.lat,
@@ -38,7 +38,7 @@ export const getWeatherData = async (lat, lng) => {
           },
           headers: {
             "x-rapidapi-host": "community-open-weather-map.p.rapidapi.com",
-            "x-rapidapi-key": process.env.REACT_APP_RAPID_API_TRAVEL_API_KEY,
+            "x-rapidapi-key": process.env.REACT_APP_RAPIDAPI_WEATHERMAP_API_KEY,
           },
         }
       );

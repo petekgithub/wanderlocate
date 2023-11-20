@@ -10,8 +10,8 @@ import { getPlacesData, getWeatherData } from "./api";
 
 function App() {
   const [places, setPlaces] = useState([]);
-  const [weatherData, setWeatherData] = useState([]);
   const [filteredPlaces, setFilteredPlaces] = useState([]);
+  const [weatherData, setWeatherData] = useState([]);
 
   const [coordinates, setCoordinates] = useState({});
   const [bounds, setBounds] = useState();
@@ -38,20 +38,24 @@ function App() {
   useEffect(() => {
     if (bounds?.sw && bounds?.ne) {
       setIsLoading(true);
+
       getWeatherData(coordinates.lat, coordinates.lng).then((data) =>
         setWeatherData(data)
       );
+
       getPlacesData(type, bounds.sw, bounds.ne).then((data) => {
         setPlaces(data?.filter((place) => place.name && place.num_reviews > 0));
+        setFilteredPlaces([]);
         setIsLoading(false);
       });
     }
   }, [type, bounds]);
 
   useEffect(() => {
-    const filteredPlaces = places?.filter((place) => place.rating > rating);
-
-    setFilteredPlaces(filteredPlaces);
+    const updatedFilteredPlaces = places?.filter(
+      (place) => place.rating > rating
+    );
+    setFilteredPlaces(updatedFilteredPlaces);
   }, [rating]);
 
   return (
